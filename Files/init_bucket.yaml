@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: pod
+metadata:
+    name: my-pod
+spec:
+    containers:
+      - name: main-container
+        image: hello-world
+        command: ["sleep","id"]
+    initContainers:
+      - name: init-container
+        image: google/cloud-sdk:latest
+        command: ["sh","-c","gsutil cp gs://bootup-files/policy.yaml /var/policies"]
+        volumeMounts:
+         - name: shared-data
+           mountPath: /var/
+        volumes:
+         - name: shared-data
+           emptyDir: {} 
+         
